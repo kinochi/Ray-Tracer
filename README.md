@@ -1,5 +1,2 @@
-<<<<<<< HEAD
 # Ray-Tracer
-=======
-# Ray-Tracer
->>>>>>> Added Readme
+  This is an attempt to make a Ray Tracer(without hardware acceleartion)
