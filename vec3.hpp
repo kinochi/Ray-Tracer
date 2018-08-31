@@ -1,5 +1,5 @@
-#ifndef VECH
-#define VECH
+#ifndef VEC3H
+#define VEC3H
 
 #include <math.h>
 #include <stdlib.h>

@@ -12,25 +12,24 @@ vec3 color(const ray& r, hitable* world) {
     // If it hits the world
     if (world->hit(r,0.0,MAXFLOAT,temp)) {
 		// Color a nice normal map to visualize them
-		return 0.5*vec3(temp.normal.z()+1.0f);
+		return 0.5*vec3(temp.normal+1.0f);
     }
 
     // If does not hit any entity then put a nice gradient behind it
-    vec3 unit_direction = unit_vector(r.direction());
-    float t = 0.5 * (unit_direction.y()) + 1.0f;
+    float t = 0.5 * (r.direction().y()) + 1.0f;
     return (1.0 - t) * vec3(1.0f, 1.0f, 1.0f) + t * vec3(0.5f, 0.7f, 1.0f);
 }
 
 int main() {
-    int nx = 800;
-    int ny = 600;
+    int nx = 1366;
+    int ny = 768;
     float screen_ratio = float(nx) / float(ny);
 
     std::ios_base::sync_with_stdio(0);
     std::cout << "P3\n" << nx << ' ' << ny << "\n255\n";
     vec3 lower_left_corner(-screen_ratio / 2.0, -0.5f, -1.0f);
 
-    vec3 horizontal(screen_ratio, 0.0f, 0.0f);
+    vec3 horizontal(1.0f, 0.0f, 0.0f);
     vec3 vertical(0.0f, 1.0f, 0.0f);
     vec3 origin(0.0f, 0.0f, 0.0f);
 
@@ -43,7 +42,7 @@ int main() {
 
     for (int j = ny - 1; j >= 0; j--) {
         for (int i = 0; i < nx; i++) {
-            float u = float(i) / float(nx);
+            float u = float(i) / float(ny);
             float v = float(j) / float(ny);
             ray r(origin, lower_left_corner + u * horizontal + v * vertical);
             vec3 col = color(r,world);
