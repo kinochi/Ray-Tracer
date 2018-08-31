@@ -8,7 +8,7 @@
 class vec3 {
   public:
     float e[3];
-    vec3() {}
+    vec3():e{0.,0.,0.} {}
     vec3(float e0, float e1, float e2) : e{e0, e1, e2} {}
     vec3(float t) : e{t, t, t} {}
     // vec3(vec3& v) : e{v.x(),v.y(),v.z()}{}
