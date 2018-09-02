@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <random>
 #include "camera.hpp"
 #include "hitable_list.hpp"
@@ -33,8 +34,8 @@ int main() {
 
     // Our World
     hitable_list* world = new hitable_list();
-    world->add(new sphere(vec3(0.0, 0.0, -1.0), 0.25));
-    world->add(new sphere(vec3(0.0, -100.5, -1), 100));
+    world->add(std::make_unique<sphere>(vec3(0.0, 0.0, -1.0), 0.25));
+    world->add(std::make_unique<sphere>(vec3(0.0, 100.5, -1.0), 100));
 
     camera c(screen_ratio);
 
