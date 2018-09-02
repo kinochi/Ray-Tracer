@@ -11,14 +11,14 @@ To check cmake version do
 cmake --version
 ```
 
-### Installing
+## Getting Started
+
 
 Just clone the repo with 
 ```
 git clone https://github.com/kinochi/Ray-Tracer
 ```
 
-## Getting Started
 
 ### Installing
 
