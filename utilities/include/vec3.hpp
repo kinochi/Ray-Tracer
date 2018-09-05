@@ -39,7 +39,7 @@ class vec3 {
         return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
     }
 
-    inline void make_unit_vector();
+    inline vec3 make_unit_vector();
 };
 
 inline std::istream &operator>>(std::istream &is, vec3 &t) {
@@ -52,11 +52,12 @@ inline std::ostream &operator<<(std::ostream &os, const vec3 &t) {
     return os;
 }
 
-inline void vec3::make_unit_vector() {
+inline vec3 vec3::make_unit_vector() {
     float k = 1.0f / sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]);
     e[0] *= k;
     e[1] *= k;
     e[2] *= k;
+	return *this;
 }
 
 inline vec3 operator+(const vec3 &v1, const vec3 &v2) {

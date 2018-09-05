@@ -6,6 +6,9 @@ add_library(
 	include/hitable.hpp
 	include/sphere.hpp
 	include/hitable_list.hpp
+	include/material.hpp
+	include/lambertian.hpp
+	include/specular.hpp
 	src/sphere.cpp
 	src/hitable_list.cpp
 )

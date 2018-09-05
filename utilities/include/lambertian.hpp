@@ -1,5 +1,4 @@
 #include "material.hpp"
-#include "vec3.hpp"
 
 vec3 random_in_unit_sphere() {
     vec3 p;
