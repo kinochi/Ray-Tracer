@@ -1,6 +1,6 @@
 #include <iostream>
-#include "ray.hpp"
-#include "vec3.hpp"
+#include <ray.hpp>
+#include <vec3.hpp>
 
 /*
  *	If ray intersects returns the parameter for the intersection

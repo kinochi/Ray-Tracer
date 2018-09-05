@@ -1,6 +1,6 @@
 #include <iostream>
-#include "ray.hpp"
-#include "vec3.hpp"
+#include <ray.hpp>
+#include <vec3.hpp>
 
 bool hit_sphere(vec3 center, float radius, const ray& r) {
     float a = dot(r.direction(), r.direction());

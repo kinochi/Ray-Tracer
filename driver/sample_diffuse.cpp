@@ -1,8 +1,8 @@
 #include <iostream>
 #include <random>
-#include "camera.hpp"
-#include "hitable_list.hpp"
-#include "sphere.hpp"
+#include <camera.hpp>
+#include <hitable_list.hpp>
+#include <sphere.hpp>
 
 /*
  * For getting the color for the current ray
@@ -15,11 +15,12 @@ vec3 random_in_unit_sphere(){
 	} while(p.squared_length() >= 1.0);
 	return p;
 }
+
 vec3 color(const ray& r, hitable* world) {
     hit_record temp;
 
     // If it hits the world
-    if (world->hit(r, 0.0, MAXFLOAT, temp)) {
+    if (world->hit(r, 0.001, MAXFLOAT, temp)) {
 		vec3 target = temp.p + temp.normal + random_in_unit_sphere();
         return 0.5 * color(ray(temp.p, target-temp.p),world);
     }
@@ -39,10 +40,9 @@ int main() {
     std::cout << "P3\n" << nx << ' ' << ny << "\n255\n";
 
     // Our World
-    hitable* list[2];
-    list[0] = new sphere(vec3(0.0, 0.0, -1.0), 0.25);
-    list[1] = new sphere(vec3(0.0, -100.5, -1), 100);
-    hitable* world = new hitable_list(list, 2);
+	hitable_list* world = new hitable_list();
+    world->add(std::make_unique<sphere>(sphere(vec3(0.0, 0.0, -1.0), 0.25)));
+    world->add(std::make_unique<sphere>(sphere(vec3(0.0, -100.5, -1), 100)));
     camera c(screen_ratio);
 
     for (int j = ny - 1; j >= 0; j--) {
@@ -55,6 +55,7 @@ int main() {
                 avg_col += col;
             }
             avg_col /= float(ss);
+			avg_col = vec3(sqrt(avg_col[0]),sqrt(avg_col[1]),sqrt(avg_col[2]));
             int ir = int(255.99 * avg_col[0]);
             int ig = int(255.99 * avg_col[1]);
             int ib = int(255.99 * avg_col[2]);

@@ -1,22 +1,27 @@
 #include <iostream>
-#include <memory>
 #include <random>
 #include "camera.hpp"
 #include "hitable_list.hpp"
 #include "sphere.hpp"
-#include "vec3.hpp"
+#include "lambertian.hpp"
 
 /*
  * For getting the color for the current ray
  * */
 
-vec3 color(const ray& r, hitable* world) {
+
+vec3 color(const ray& r, hitable* world, int depth) {
     hit_record temp;
 
     // If it hits the world
-    if (world->hit(r, 0.0, MAXFLOAT, temp)) {
-        // Color a nice normal map to visualize them
-        return 0.5 * vec3(temp.normal + 1.0f);
+    if (world->hit(r, 0.001, MAXFLOAT, temp)) {
+		vec3 attenuation;
+		ray target;
+		
+		if(depth < 50 && temp.mat_ptr->scatter(r,temp,attenuation,target) )
+			return attenuation * color(target,world,depth+1);
+
+		return vec3(0.);
     }
 
     // If does not hit any entity then put a nice gradient behind it
@@ -25,8 +30,8 @@ vec3 color(const ray& r, hitable* world) {
 }
 
 int main() {
-    int nx = 400;
-    int ny = 200;
+    int nx = 800;
+    int ny = 400;
     int ss = 10;
     float screen_ratio = float(nx) / float(ny);
 
@@ -34,10 +39,9 @@ int main() {
     std::cout << "P3\n" << nx << ' ' << ny << "\n255\n";
 
     // Our World
-    hitable_list* world = new hitable_list();
-    world->add(std::make_unique<sphere>(vec3(0.0, 0.0, -1.0), 0.25));
-    world->add(std::make_unique<sphere>(vec3(0.0, 100.5, -1.0), 100));
-
+	hitable_list* world = new hitable_list();
+    world->add(std::make_unique<sphere>(sphere(vec3(0.0, 0.0, -1.0), 0.25, new lambertian(vec3(0.8,0.3,0.3)))));
+    world->add(std::make_unique<sphere>(sphere(vec3(0.0, -100.5, -1), 100, new lambertian(vec3(0.8,0.6,0.6) ))));
     camera c(screen_ratio);
 
     for (int j = ny - 1; j >= 0; j--) {
@@ -46,16 +50,17 @@ int main() {
             for (int s = 0; s < ss; s++) {
 				float u = float(i+drand48()) / float(ny);
 				float v = float(j+drand48()) / float(ny);
-                vec3 col = color(c.get_ray(u, v), (hitable*) world);
+                vec3 col = color(c.get_ray(u, v), world, 0 );
                 avg_col += col;
             }
             avg_col /= float(ss);
+			avg_col = vec3(sqrt(avg_col[0]),sqrt(avg_col[1]),sqrt(avg_col[2]));
             int ir = int(255.99 * avg_col[0]);
             int ig = int(255.99 * avg_col[1]);
             int ib = int(255.99 * avg_col[2]);
             std::cout << ir << ' ' << ig << ' ' << ib << '\n';
         }
     }
-
+	delete world;
     return 0;
 }

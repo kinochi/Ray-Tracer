@@ -1,6 +1,6 @@
 #include <iostream>
-#include "sphere.hpp"
-#include "hitable_list.hpp"
+#include "../utilities/include/sphere.hpp"
+#include "../utilities/include/hitable_list.hpp"
 
 /*
  * For getting the color for the current ray

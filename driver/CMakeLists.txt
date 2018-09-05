@@ -1,3 +1,3 @@
-add_executable(raytracer sample_without_list.cpp)
+add_executable(raytracer sample_material.cpp)
 
 target_link_libraries(raytracer PRIVATE utilities)
