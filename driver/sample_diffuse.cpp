@@ -31,8 +31,8 @@ vec3 color(const ray& r, hitable* world) {
 }
 
 int main() {
-    int nx = 800;
-    int ny = 400;
+    int nx = 200;
+    int ny = 100;
     int ss = 10;
     float screen_ratio = float(nx) / float(ny);
 
